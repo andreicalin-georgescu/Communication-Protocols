@@ -1,0 +1,16 @@
+====README TEMA1_PC====
+Georgescu Andrei Calin
+
+Pentru a trimite foarte simplist fisierul de input incep prin a calcula dimensi-
+unea ferestrei folosind parametrii de intrare si numarul de cadre necesare 
+pentru transmisie.
+
+In continuare voi trimite prima data numele fisierului din sender, urmand ca in 
+receiver sa-l primesc si sa construiesc denumirea fisierului in care trebuie sa 
+scriu.
+
+Urmatorul pas este sa trimit COUNT, adica numarul de cadre necesare transmiterii
+fisierului. In sender trimitem prima data window_size pachete, apoi window_size-
+-COUNT pachete, urmand ca in recv sa receptionam COUNT pachete.
+
+Rog a mi se rula tema pe masina locala. 

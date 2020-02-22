@@ -1,0 +1,83 @@
+====README TEMA 3 PRORTOCOALE====
+
+Georgescu Andrei Calin
+Grupa: 324 CA
+
+In primul rand vreau sa mentionez ca aceasta a fost de departe cea mai 
+interesanta tema din acest an si m-a ajutat sa sedimentez intelegerea 
+protocolului de HTTP.
+
+Detalii de implementare:
+Punctul de pornire a temei a fost laboratorul 10, cel de HTTP. S-au adus 
+modificari functiilor de compute_get_request si compute_post_request pentru a 
+acomoda cerintele temei. De asemenea, au fost modificate campurile IPSERVER si 
+PORTSERVER din helpers.h, conform detaliilor din etapa 1 a enuntului.
+
+Pentru parsarea de JSON a fost folosita bilbioteca parson, datorita 
+implementarii ei lightweight si a usurintei de utilizare ea fiind, totodata si 
+cea indicata in subsolul enuntului temei :).
+
+In continuare voi detalia pasii de rezolvare pentru fiecare etapa in parte.
+
+--Etapa 1--
+Pentru aceasta etapa deschidem o conexiune cu serverul(identificat prin ip si 
+port) si cream o cerere de get pentru a primi enuntul celei de-a doua etape, 
+folosind url-ul dat in enunt. 
+
+--Etapa 2--
+S-a dezvoltat o functie de parsare a cookie-urilor din antetul raspunsului 
+primit(denumita in continuare get_cookie), care primeste ca parametru un pointer 
+catre raspuns si intoarce sirul de cookies parsat conform cerintelor. 
+
+Se parseaza campul body a raspunsului primit folosind biblioteca parson pentru 
+a extrage url, user, parola si tipul continutului. Se creaza sirul de 
+autentificare si se apeleaza functia get_cookie pentru a extrage cookieurile 
+primite la acest pas. 
+
+Se creaza un mesaj de tip post folosind datele extrase anterior, fara token JWT
+de autorizare(deocamdata) si se va trimite la server, inregistrand, mai apoi, 
+raspunsul primit. 
+
+--Etapa 3--
+Se parseaza noul raspuns primit de la server(incepand tot de la campul body) si 
+se construieste sirul cu raspunsul catre cele doua intrebari. Dupa ce id-ul este
+extras, se adauga, de asemenea, acestuia. 
+
+Se extrage folosind biblioteca parson si tokenul JWT de autorizare.
+
+Se apeleaza functia de get_cookie si se creaza mesajul care este mai apoi trimis
+catre server. Pentru compunerea mesajului s-a declarat o functie 
+compute_get_request_task3, pentru claritate(Ulterior am realizat ca functionali-
+tatea acestei functii putea fi inglobata in cealalta functie, folosita 
+anterior).
+
+Se trimite mesajul astfel format catre server si se inregistreaza raspunsul 
+primit.
+
+--Etapa 4--
+Pentru aceasta etapa se extrag noile cookie-uri primite folosind functia dezvol-
+tata si se va construi un nou mesaj care va fi trimis la server, incluzand, de 
+aceasta data, si tokenul JWT primit anterior. 
+
+Se inregistreaza raspunsul primit de la server pentru a fi folosit ulterior. 
+
+--Etapa 5--
+Pentru ultima etapa, se parseaza campul body al raspunsului si sunt astfel 
+extrase campurile necesare compunerii mesajului care va urma sa fie transmis 
+catre serverul de vreme(respectiv url, request_url, parametrii care trebuiesc
+inclusi in mesaj si tipul continutului - pentru a fi trimis ulterior serverului 
+cu tema).
+
+Se construieste sirul cu parametrii care urmeaza a fi transmisi serverului de 
+vreme si se afla adresa ip a acestuia, pornind de la url. 
+
+Se trimite un request catre acest server si se inregistreaza raspunsul primit,
+pentru ca mai apoi sa fie parsat dupa body si inclus in mesajul de compute_post
+care va fi trimis serverului cu tema. 
+
+Dupa crearea mesajului de post, folosind totodata si tokenul de JWT, se afiseaza 
+ultimul raspuns primit. 
+
+La final trebuie avut grija ca memoria alocata sa fie eliberata, pentru a ne
+asigura ca programul este ermetic din punct de vedere a lucrului cu memoria(un 
+aspect al temei cu care a fost ceva de munca).

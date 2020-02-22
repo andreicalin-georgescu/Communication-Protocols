@@ -1,0 +1,45 @@
+README Tema 2
+Georgescu Andrei Calin 324CA
+
+Pentru implementarea temei s-au folosit laboratoarele de multiplexare, UDP si 
+TCP. 
+
+In server:
+
+Se creaza asocieri intre id client si topicuri, intre id si SF, intre id si 
+socket si intre socket si id, pentru a avea o corespondenta bidirectionala.
+
+Au fost create functii pentru normalizarea unui short si pentru transformarea
+cu semn al unui numar de tip float. Pe langa acestea, s-a folosit o functie care
+sa indice utilizatorului utilizarea corecta a executabilelor create.
+
+Se creaza un vector pentru clientii proaspat conectati. El va folosit pentru ca, 
+atunci cand clientul isi trimite id-ul catre server, sa putem face asocierile 
+corecte. Dupa aceasta, clientul este eliminat din vectorul respectiv.
+Se creaza multimile de read_fds si tmp_fds si se adauga tastatura la multimea 
+de citire. 
+
+Dupa setarea proprietatilor serverului si a celor legate de socket se verifica 
+daca socketii de UDP si TCP sunt mai mici sau egali decat fdmax. In caz contrar 
+ne vom asigura de aceasta. 
+
+In bucla de executie avem 4 cazuri principale:
+ - primim exit de la tastatura, caz in care vom inchide serverul si toti 
+ clientii;
+
+ - primim o cerere de conectare pe TCP, pe care o satisfacem;
+ - primim mesaje pe socketul de UDP, caz in care parsam mesajul intr-o structura
+ dedicata si il trimitem clientilor de TCP abonati;
+ - primim mesaje de subscribe/unsubscribe de la clientii de TCP, pe care le 
+ onoram.
+
+In client:
+
+Trimitem serverului id-ul primit ca argument la rulare, iar in bucla 
+de executie, care urmeaza dupa setarea proprietatilor, vom citi de la tastatura 
+comenzi de subscribe/unsubcribe si exit, sau vom afisa mesajele primite de la 
+server. La primirea unei comenzi de exit, vom inchide clientul si socketii 
+asociati, avand grija sa il scoatem si din multimea de read si tmp.
+
+Functionalitatea de S&F nu functiona conform standardelor asa ca a fost 
+eliminata complet. 
