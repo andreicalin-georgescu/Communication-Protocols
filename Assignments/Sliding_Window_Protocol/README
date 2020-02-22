@@ -13,4 +13,5 @@ Urmatorul pas este sa trimit COUNT, adica numarul de cadre necesare transmiterii
 fisierului. In sender trimitem prima data window_size pachete, apoi window_size-
 -COUNT pachete, urmand ca in recv sa receptionam COUNT pachete.
 
-Rog a mi se rula tema pe masina locala. 
+TODO: Implementarea completa a functionalitatilor. Momentan proiectul indeplineste 
+30% dintre cerinte
